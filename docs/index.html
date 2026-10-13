@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>教学材料生成工作台</title>
+<style>
+:root{
+  --blue:#2B6CB0; --blue-dark:#1A365D; --blue-light:#EBF3FB;
+  --border:#E3E8EF; --bg:#F5F7FA; --text:#1F2937; --muted:#6B7280;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",system-ui,sans-serif;
+  font-size:14px;line-height:1.6}
+header{background:#fff;border-bottom:3px solid var(--blue);padding:20px 32px}
+h1{margin:0;font-size:20px;font-weight:600;color:var(--blue-dark);letter-spacing:.5px}
+header p{margin:6px 0 0;color:var(--muted);font-size:13px}
+main{max-width:1100px;margin:0 auto;padding:24px 32px 64px}
+.card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin-bottom:20px}
+.card h2{margin:0 0 4px;font-size:15px;font-weight:600;color:var(--blue-dark)}
+.card .hint{margin:0 0 16px;color:var(--muted);font-size:12.5px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 18px}
+.field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px}
+.tag{display:inline-block;padding:0 5px;border-radius:3px;background:var(--blue-light);
+  color:var(--blue);font-size:11px;margin-left:4px;vertical-align:1px}
+input,select{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;
+  font:inherit;color:var(--text);background:#fff}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(43,108,176,.12)}
+table{width:100%;border-collapse:collapse}
+th,td{border:1px solid var(--border);padding:5px 8px;text-align:left;font-size:13px}
+th{background:var(--blue-light);color:var(--blue-dark);font-weight:600;font-size:12.5px;white-space:nowrap}
+td.idx{width:44px;text-align:center;color:var(--muted)}
+td.act{width:76px;text-align:center}
+td input{border-color:transparent;background:#FAFBFC}
+td input:hover{border-color:var(--border)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.btn{display:inline-flex;align-items:center;padding:8px 16px;border-radius:6px;
+  border:1px solid var(--border);background:#fff;color:var(--text);font:inherit;
+  font-size:13px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--blue);color:var(--blue)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover{background:#245A94;color:#fff}
+.btn.mini{padding:3px 9px;font-size:12.5px;color:#A32D2D;border-color:#F0D5D5}
+.btn.mini:hover{border-color:#A32D2D;color:#A32D2D;background:#FDF6F6}
+textarea{width:100%;min-height:340px;padding:14px 16px;border:1px solid var(--border);
+  border-radius:6px;resize:vertical;font-family:Consolas,"Courier New",monospace;
+  font-size:13px;line-height:1.8;background:#FAFBFC;color:var(--text)}
+.tip{margin:12px 0 0;padding:10px 14px;border-left:3px solid var(--blue);
+  background:var(--blue-light);border-radius:0 6px 6px 0;font-size:12.5px;color:#33475B}
+footer{max-width:1100px;margin:0 auto;padding:0 32px 48px;color:var(--muted);font-size:12.5px}
+footer strong{color:#33475B}
+#toast{position:fixed;left:50%;bottom:36px;transform:translateX(-50%) translateY(10px);
+  background:var(--blue-dark);color:#fff;padding:9px 20px;border-radius:20px;
+  font-size:13px;opacity:0;pointer-events:none;transition:.22s}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (max-width:900px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  main,header,footer{padding-left:18px;padding-right:18px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>教学材料生成工作台</h1>
+  <p>填好信息 → 点「复制全文」→ 粘贴到 WorkBuddy 对话框，即可生成教案 / 课件大纲 / 说课稿三件套。</p>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>一、课程信息</h2>
+    <p class="hint">整门课只填一次，各章节共用。带 <span style="color:#C53030">*</span> 为必填；不清楚的字段可留空，技能会在对话中与你确认。</p>
+    <div class="grid">
+      <div class="field"><label>专业大类 <span style="color:#C53030">*</span></label>
+        <input id="majorCategory" placeholder="如 财经商贸大类"></div>
+      <div class="field"><label>专业名称 <span style="color:#C53030">*</span></label>
+        <input id="majorName" placeholder="如 商务数据分析"></div>
+      <div class="field"><label>课程名称 <span style="color:#C53030">*</span></label>
+        <input id="courseName" placeholder="如 商务数据分析实务"></div>
+      <div class="field"><label>课程性质 <span class="tag">决定路径</span></label>
+        <select id="courseType">
+          <option value="">（不填，由技能判断）</option>
+          <option>专业核心课</option>
+          <option>专业实训课</option>
+          <option>理实一体课</option>
+          <option>专业基础理论课</option>
+          <option>公共基础课</option>
+          <option>其他</option>
+        </select></div>
+      <div class="field"><label>对应岗位（群） <span class="tag">岗位驱动必填</span></label>
+        <input id="jobRole" placeholder="如 商务数据分析师 / 数据运营"></div>
+      <div class="field"><label>授课对象 <span style="color:#C53030">*</span></label>
+        <select id="grade">
+          <option value="">（请选择）</option>
+          <option>高职一年级</option><option>高职二年级</option><option>高职三年级</option>
+          <option>职业本科一年级</option><option>职业本科二年级</option>
+          <option>中职二年级</option><option>中职三年级</option>
+        </select></div>
+      <div class="field"><label>授课地点</label>
+        <input id="place" placeholder="如 一体化实训室"></div>
+      <div class="field"><label>授课教师</label>
+        <input id="teacher" placeholder="如 张老师 /（待填写）"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>二、章节清单</h2>
+    <p class="hint">一行一个章节，整门课一次填完。「典型工作任务」说不出就留空——技能会先反推、批量列出让你确认，不会硬编。</p>
+    <table>
+      <thead>
+        <tr>
+          <th>序号</th>
+          <th>章节 / 主题 <span style="color:#C53030">*</span></th>
+          <th>典型工作任务（可留空，由技能反推）</th>
+          <th style="width:110px">课时</th>
+          <th style="width:76px">操作</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="bar">
+      <button class="btn" id="addRow">+ 添加章节</button>
+      <span style="color:var(--muted);font-size:12.5px">课时留空默认按 <input id="defaultHours" value="2" style="width:46px;display:inline-block;padding:2px 6px;text-align:center"> 课时计</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>三、生成结果</h2>
+    <p class="hint">下方文本会随填写实时更新。可直接编辑微调，再复制粘贴给技能。</p>
+    <textarea id="out" spellcheck="false"></textarea>
+    <div class="bar">
+      <button class="btn primary" id="copy">复制全文</button>
+      <button class="btn" id="sample">填入示例（看效果）</button>
+      <button class="btn" id="clear">清空重填</button>
+    </div>
+    <p class="tip">粘贴后技能会先判定生成路径（岗位驱动 / 章节驱动），再逐章节生成三件套并自检铁律。多个章节会按顺序产出多组文件，请留意生成进度。</p>
+  </section>
+
+</main>
+
+<footer>
+  <p><strong>这个工作台只做一件事：把信息整理成规范文本。</strong>路径判定、典型工作任务反推，都交给技能在对话中完成——工作台不代替判断，避免两处结论打架。</p>
+  <p>所有数据只保存在本机浏览器（localStorage），不上传、不外发。换电脑或清缓存后需重填。</p>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+const FIELDS = ["majorCategory","majorName","courseName","courseType","jobRole","grade","place","teacher"];
+const LABELS = {
+  majorCategory:"专业大类", majorName:"专业名称", courseName:"课程名称",
+  courseType:"课程性质", jobRole:"对应岗位（群）", grade:"授课对象",
+  place:"授课地点", teacher:"授课教师"
+};
+const KEY = "tmg-workbench-v1";
+const SAMPLE = {
+  c:{majorCategory:"财经商贸大类",majorName:"商务数据分析",courseName:"商务数据分析实务",
+     courseType:"专业核心课",jobRole:"商务数据分析师 / 数据运营",grade:"高职二年级",
+     place:"一体化实训室",teacher:"（待填写）"},
+  rows:[
+    {topic:"数据分析概述",jobTask:"",hours:"2"},
+    {topic:"数据采集与导入",jobTask:"业务数据采集与入库校验",hours:"4"},
+    {topic:"数据清洗与预处理",jobTask:"业务数据清洗与质量校验",hours:"4"},
+    {topic:"描述性统计分析",jobTask:"业务运营指标描述分析",hours:"4"}
+  ]
+};
+
+const el = id => document.getElementById(id);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g,
+  m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const defaultHours = () => el("defaultHours").value.trim() || "2";
+
+function addRow(topic, jobTask, hours){
+  const tr = document.createElement("tr");
+  tr.innerHTML =
+    '<td class="idx"></td>' +
+    '<td><input class="topic" placeholder="如 数据清洗与预处理" value="' + esc(topic) + '"></td>' +
+    '<td><input class="jobtask" placeholder="留空则由技能反推" value="' + esc(jobTask) + '"></td>' +
+    '<td><input class="hours" type="number" min="1" max="12" placeholder="' + esc(defaultHours()) + '" value="' + esc(hours) + '"></td>' +
+    '<td class="act"><button class="btn mini del">删除</button></td>';
+  el("rows").appendChild(tr);
+  tr.querySelectorAll("input").forEach(i => i.addEventListener("input", render));
+  renumber();
+}
+
+function renumber(){
+  Array.prototype.forEach.call(el("rows").children, (tr, i) => {
+    tr.querySelector(".idx").textContent = i + 1;
+  });
+}
+
+function collect(){
+  const c = {};
+  FIELDS.forEach(k => { c[k] = el(k).value.trim(); });
+  const rows = [];
+  Array.prototype.forEach.call(el("rows").children, tr => {
+    const topic = tr.querySelector(".topic").value.trim();
+    const jobTask = tr.querySelector(".jobtask").value.trim();
+    const hours = tr.querySelector(".hours").value.trim();
+    if (topic || jobTask) rows.push({topic:topic, jobTask:jobTask, hours:hours});
+  });
+  return {c:c, rows:rows};
+}
+
+function buildText(){
+  const data = collect();
+  const c = data.c, rows = data.rows, n = rows.length;
+  if (!n) return "请先在上方填写课程信息，并在「章节清单」里至少填一行章节。";
+
+  const L = [];
+  L.push(n === 1
+    ? "请帮我生成这个章节的教学材料三件套（教案全文 + 课件大纲 + 说课稿）。"
+    : "请帮我生成整门课的教学材料三件套（教案全文 + 课件大纲 + 说课稿），共 " + n + " 个章节。");
+  L.push("");
+  L.push("【课程信息】");
+  FIELDS.forEach(k => { if (c[k]) L.push("- " + LABELS[k] + "：" + c[k]); });
+  L.push("");
+  L.push("【章节清单】");
+  rows.forEach((r, i) => {
+    L.push((i + 1) + ". " + (r.topic || "（主题待补）"));
+    L.push("   典型工作任务：" + (r.jobTask || "（未填，请你反推）"));
+    L.push("   课时：" + (r.hours || defaultHours()));
+  });
+  L.push("");
+  L.push("【执行要求】");
+  const needInfer = rows.some(r => !r.jobTask);
+  let i = 1;
+  L.push(i++ + ". 先按规范判定生成路径（岗位驱动 A / 章节驱动 B），整门课保持一致，不要中途切换；");
+  if (needInfer) L.push(i++ + ". 未填「典型工作任务」的章节，请整批反推后一次性列出，待我确认再开始生成；");
+  L.push(i++ + ". 每个章节生成三份独立 Markdown：<名称> 教案 V1.md、<名称> 课件大纲 V1.md、<名称> 说课稿 V1.md；");
+  L.push(i++ + ". 三件套逐份执行编写铁律自检（免责提示、英文缩写首出全称、禁用“掌握/学会/培养/强化”、授课对象称“参训者”、案例角色用 A/B/C 代称）。");
+  return L.join("\n");
+}
+
+function render(){
+  el("out").value = buildText();
+  save();
+}
+
+function save(){
+  try{
+    const d = collect();
+    localStorage.setItem(KEY, JSON.stringify({c:d.c, rows:d.rows, dh: defaultHours()}));
+  }catch(e){}
+}
+
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if (!raw) return false;
+    const d = JSON.parse(raw);
+    if (!d) return false;
+    FIELDS.forEach(k => { if (d.c && d.c[k]) el(k).value = d.c[k]; });
+    if (d.dh) el("defaultHours").value = d.dh;
+    (d.rows || []).forEach(r => addRow(r.topic, r.jobTask, r.hours));
+    return (d.rows || []).length > 0;
+  }catch(e){ return false; }
+}
+
+function toast(msg){
+  const t = el("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+async function copyOut(){
+  const t = el("out").value;
+  if (!t || t.indexOf("请先在上方填写") === 0){
+    toast("还没有可复制的内容，请先填写课程信息与章节");
+    return;
+  }
+  try{
+    await navigator.clipboard.writeText(t);
+    toast("已复制，粘贴到 WorkBuddy 对话框即可");
+  }catch(e){
+    const o = el("out");
+    o.select();
+    try{ document.execCommand("copy"); toast("已复制，粘贴到 WorkBuddy 对话框即可"); }
+    catch(_){ toast("复制失败，请手动全选复制"); }
+    window.getSelection().removeAllRanges();
+  }
+}
+
+function clearAll(){
+  FIELDS.forEach(k => { el(k).value = ""; });
+  el("defaultHours").value = "2";
+  el("rows").innerHTML = "";
+  addRow(); addRow(); addRow();
+  render();
+}
+
+function fillSample(){
+  el("rows").innerHTML = "";
+  FIELDS.forEach(k => { el(k).value = SAMPLE.c[k] || ""; });
+  el("defaultHours").value = "2";
+  SAMPLE.rows.forEach(r => addRow(r.topic, r.jobTask, r.hours));
+  render();
+  toast("已填入示例，可直接感受输出效果");
+}
+
+el("addRow").addEventListener("click", () => { addRow(); render(); });
+el("copy").addEventListener("click", copyOut);
+el("clear").addEventListener("click", clearAll);
+el("sample").addEventListener("click", fillSample);
+el("defaultHours").addEventListener("input", render);
+el("rows").addEventListener("click", e => {
+  if (e.target.classList.contains("del")){
+    e.target.closest("tr").remove();
+    if (!el("rows").children.length) addRow();
+    renumber(); render();
+  }
+});
+FIELDS.forEach(k => el(k).addEventListener("input", render));
+
+if (!load()){ addRow(); addRow(); addRow(); }
+render();
+</script>
+</body>
+</html>
