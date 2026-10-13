@@ -1,0 +1,13 @@
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# Python 运行产物（scripts/ 下执行后生成）
+__pycache__/
+*.pyc
+*.pyo
+
+# 转 Word 输出目录（scripts/md2docx.py --out dist）
+dist/
+*.docx
