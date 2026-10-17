@@ -1,7 +1,11 @@
 ---
 name: teaching-material-generator
+display_name: 课堂教学材料生成器
 description: 面向职业教育（高职/本科）教师与课程开发者，支持岗位驱动与章节驱动双路径，一次性生成「教案全文 + 配套课件大纲 + 说课稿」三份结构化 Markdown 教学材料。岗位驱动路径从岗位典型工作任务出发，产出理实一体化九章教案（理论线与实践线并行，含实践任务书，可对接实训任务生成）；章节驱动路径从教材章节出发，产出标准八章教案。当用户提到生成教案、做课件、写说课稿、备课、生成教学设计时，使用本技能。
+description_zh: 面向职业教育（高职/本科）的备课技能，从岗位典型工作任务或教材章节出发，一次生成「教案全文 + 课件大纲 + 说课稿」三件套，理实一体化、统一职教编写铁律。
+description_en: A teaching-prep skill for vocational education (higher vocational / applied undergraduate). From a job's typical work tasks or a textbook chapter, it generates a complete lesson plan, courseware outline, and teaching speech in one pass, with theory-practice integration and unified vocational writing rules.
 version: 0.3.2
+author: 顺哥
 agent_created: true
 ---
 
