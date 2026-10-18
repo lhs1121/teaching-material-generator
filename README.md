@@ -2,7 +2,14 @@
 
 > 职业教育课堂教学材料生成器 —— 一个 [WorkBuddy](https://www.workbuddy.cn) 技能
 
+[![version](https://img.shields.io/badge/version-0.4.0-2B6CB0)](https://github.com/lhs1121/teaching-material-generator/releases)
+[![license](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+[![在线工作台](https://img.shields.io/badge/demo-在线工作台-2B6CB0)](https://lhs1121.github.io/teaching-material-generator/)
+[![SkillHub](https://img.shields.io/badge/SkillHub-即将上架-orange)](https://skillhub.cn)
+
 输入课程基本信息，**一次性生成「教案全文 + 配套课件大纲 + 说课稿」三份结构化 Markdown 教学材料**，统一遵守职业教育编写铁律。适用于高职 / 职业本科的备课、教学能力比赛、教研活动。
+
+> *English*: A teaching-prep skill for vocational education. From a job's typical work task or a textbook chapter, it generates a complete **lesson plan + courseware outline + teaching speech** in one pass — theory-practice integrated, with built-in learner analysis, curriculum ideology and unified vocational writing rules.
 
 **支持两条生成路径**（生成前自动判定，中途不切换）：
 
@@ -12,6 +19,26 @@
 | **B 章节驱动** | 公共基础课 / 专业基础理论课 | 教材章节 / 知识主题 | 九章 | 沿用 v0.1.0 结构并新增学情分析，无实践任务书 |
 
 > 判为路径 A 但只给了章节名时，技能会**反推典型工作任务**并请你确认一句，不会直接退回路径 B。
+
+## 为什么选它（教师痛点 → 本技能解法）
+
+| 老师遇到的痛点 | 通用 AI 的坑 | 本技能的解法 |
+|---|---|---|
+| 备课重复内耗（每周 >8h 找课件、凑实训素材） | 一份一份问、内容拼不齐 | **三件套一次出** + 整门课批量工作台 |
+| 理实脱节、教案"假大空" | 把教研大纲当课堂分镜、全是空话 | **岗位驱动双路径**，理论线"够用为度"、实践线"产出导向" |
+| 岗课赛证难落地 | 不会对接 1+X / 技能大赛 | **五要素分析 + 岗课赛证衔接**内建 |
+| 目标不可测、评委扣分 | "掌握/学会"式空目标 | **禁教师视角词**，目标落到可观测行为 |
+| 学情 / 思政写不出 | 一笔带过、贴标签 | **独立学情章 + 课程思政融入点表**，命中比赛评分项 |
+| 拿不到能进课堂的 Word | 输出纯文本 | **自带脚本一键转 Word**（统一宋体、表格加框） |
+
+## 快速上手（3 步）
+
+1. **装**：把本目录放进 `~/.workbuddy/skills/`（或从市场一键安装）。
+2. **说**：在 WorkBuddy 里说一句备课意图，如"帮我校《商务数据分析》'数据清洗与预处理'那章做个教案和课件，高职大二，4 学时"。
+3. **拿**：得到三份 Markdown，需要 Word 就：
+   ```bash
+   python scripts/md2docx.py --out dist "主题 教案 V1.md" "主题 课件大纲 V1.md" "主题 说课稿 V1.md"
+   ```
 
 ## 功能特性
 
