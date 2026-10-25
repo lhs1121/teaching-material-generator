@@ -5,7 +5,7 @@ description: 面向职业教育（高职/本科）教师与课程开发者，支
 description_zh: 面向职业教育（高职/本科）的备课技能，从岗位典型工作任务或教材章节出发，一次生成「教案全文 + 课件大纲 + 说课稿」三件套，理实一体化、统一职教编写铁律。
 description_en: A teaching-prep skill for vocational education (higher vocational / applied undergraduate). From a job's typical work tasks or a textbook chapter, it generates a complete lesson plan, courseware outline, and teaching speech in one pass, with theory-practice integration and unified vocational writing rules.
 version: 0.4.0
-author: 职教智课
+author: 意瞬
 agent_created: true
 ---
 
