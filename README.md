@@ -6,6 +6,7 @@
 [![license](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 [![在线工作台](https://img.shields.io/badge/demo-在线工作台-2B6CB0)](https://lhs1121.github.io/teaching-material-generator/)
 [![SkillHub](https://img.shields.io/badge/SkillHub-即将上架-orange)](https://skillhub.cn)
+[![author](https://img.shields.io/badge/author-意瞬-2B6CB0)](https://github.com/lhs1121)
 
 输入课程基本信息，**一次性生成「教案全文 + 配套课件大纲 + 说课稿」三份结构化 Markdown 教学材料**，统一遵守职业教育编写铁律。适用于高职 / 职业本科的备课、教学能力比赛、教研活动。
 
@@ -210,6 +211,14 @@ teaching-material-generator/
 ├── manifest.yaml            # SkillHub/ClawHub 上架清单（slug/版本/分类/触发词）
 └── icon.png                 # 512×512 技能图标（上架必备）
 ```
+
+## 关于作者
+
+**意瞬（YiShun）** —— 取自"意念一瞬"。
+
+> 一念起于意瞬，智创落地有声。
+
+依托 AI 能力，把脑海中的构思与需求，快速转化为课件、实训室方案、投标文档、空间设计脚本等扎实可用的成果。灵感生于瞬息，AI 助力落地，重专业、重实效。
 
 ## License
 
